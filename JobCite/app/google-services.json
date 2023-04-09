@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "90164693388",
+    "project_id": "jobcite-a5738",
+    "storage_bucket": "jobcite-a5738.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90164693388:android:b4b8b0738b7d203e82aea9",
+        "android_client_info": {
+          "package_name": "com.nabin0.jobcite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90164693388-na0ghjekm3ifr6f89g1bral7s9euufpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe8TobDqUI8M1KmdgCw_UAteFFX2hfm8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90164693388-na0ghjekm3ifr6f89g1bral7s9euufpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
