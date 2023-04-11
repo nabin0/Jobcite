@@ -18,14 +18,14 @@ import com.nabin0.jobcite.presentation.graphs.HomeNavGraph
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navHostController: NavHostController = rememberNavController(), toggleTheme: ()->Unit) {
+fun HomeScreen(navHostController: NavHostController = rememberNavController(), toggleTheme: ()->Unit, rootNavHost: NavHostController) {
     Scaffold(bottomBar = {
         BottomBar(navHostController = navHostController)
     }) { paddingValues ->
         HomeNavGraph(
             modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
             navHostController = navHostController,
-            toggleTheme = toggleTheme
+            toggleTheme = toggleTheme, rootNavHost = rootNavHost
         )
     }
 }

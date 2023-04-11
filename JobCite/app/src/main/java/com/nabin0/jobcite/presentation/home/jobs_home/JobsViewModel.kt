@@ -1,6 +1,5 @@
 package com.nabin0.jobcite.presentation.home.jobs_home
 
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +7,7 @@ import com.nabin0.jobcite.data.utils.Resource
 import com.nabin0.jobcite.domain.jobs.JobsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,56 +23,116 @@ class JobsViewModel @Inject constructor(
     var state by mutableStateOf(JobsScreenState())
 
     init {
-        state = state.copy(loading = true)
+        state = state.copy(loadingWholePage = true)
         getJobs()
+        getMobileDevJobs()
+        getWebDevJobs()
     }
 
     fun onEvent(event: JobsScreenEvents) {
         when (event) {
-            JobsScreenEvents.getJobs -> {
+            JobsScreenEvents.GetJobs -> {
                 getJobs()
             }
-            JobsScreenEvents.onSearchBarCloseIconClick -> {
+            JobsScreenEvents.OnSearchBarCloseIconClick -> {
                 state = state.copy(searchText = "")
                 state = state.copy(isSearchBarVisible = false)
                 getJobs()
             }
-            JobsScreenEvents.onSearchIconClick -> {
+            JobsScreenEvents.OnSearchIconClick -> {
                 state = state.copy(isSearchBarVisible = true)
             }
-            JobsScreenEvents.searchJobs -> {
+            JobsScreenEvents.SearchJobs -> {
                 searchJobs()
             }
-            is JobsScreenEvents.onSearchTextChange -> {
+            is JobsScreenEvents.OnSearchTextChange -> {
                 state = state.copy(searchText = event.text)
             }
-            JobsScreenEvents.onRefresh -> {
+            JobsScreenEvents.OnRefresh -> {
                 refresh()
+            }
+            JobsScreenEvents.GetMobileDevJobs -> {
+                getMobileDevJobs()
+            }
+            JobsScreenEvents.GetWebsiteDevJobs -> {
+                getWebDevJobs()
+            }
+        }
+    }
+
+    private fun getWebDevJobs() {
+        viewModelScope.launch {
+            state = state.copy(loadingWebDevJobsSection = true)
+            jobsRepository.searchJobs("web") { res ->
+                viewModelScope.launch {
+                    when (res) {
+                        is Resource.Failure -> {
+                            state = state.copy(loadingWebDevJobsSection = false)
+                            _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
+                        }
+                        Resource.Loading -> {
+                            state = state.copy(loadingWebDevJobsSection = true)
+                        }
+                        is Resource.Success -> {
+                            state = state.copy(loadingWebDevJobsSection = false)
+                            res.result?.let {
+                                state = state.copy(webDevJobsList = it)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getMobileDevJobs() {
+        viewModelScope.launch {
+            state = state.copy(loadingMobileDevJobsSection = true)
+            jobsRepository.searchJobs("app") { res ->
+                viewModelScope.launch {
+                    when (res) {
+                        is Resource.Failure -> {
+                            state = state.copy(loadingMobileDevJobsSection = false)
+                            _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
+                        }
+                        Resource.Loading -> {
+                            state = state.copy(loadingMobileDevJobsSection = true)
+                        }
+                        is Resource.Success -> {
+                            state = state.copy(loadingMobileDevJobsSection = false)
+                            res.result?.let {
+                                state = state.copy(mobileDevJobsList = it)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
     private fun refresh() {
         getJobs()
+        getMobileDevJobs()
+        getWebDevJobs()
     }
 
     private fun searchJobs() {
         viewModelScope.launch {
-            state = state.copy(loading = true)
+            state = state.copy(loadingWholePage = true)
             jobsRepository.searchJobs(state.searchText) { res ->
                 viewModelScope.launch {
                     when (res) {
                         is Resource.Failure -> {
-                            state = state.copy(loading = false)
+                            state = state.copy(loadingWholePage = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
                         Resource.Loading -> {
-                            state = state.copy(loading = true)
+                            state = state.copy(loadingWholePage = true)
                         }
                         is Resource.Success -> {
-                            state = state.copy(loading = false)
+                            state = state.copy(loadingWholePage = false)
                             res.result?.let {
-                                state = state.copy(jobsList = it)
+                                state = state.copy(searchedJobsList = it)
                             }
                         }
                     }
@@ -84,21 +144,21 @@ class JobsViewModel @Inject constructor(
 
     private fun getJobs() {
         viewModelScope.launch {
-            state = state.copy(loading = true)
+            state = state.copy(loadingWholePage = true)
             jobsRepository.getJobs { res ->
                 viewModelScope.launch {
                     when (res) {
                         is Resource.Failure -> {
-                            state = state.copy(loading = false)
+                            state = state.copy(loadingWholePage = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
                         Resource.Loading -> {
-                            state = state.copy(loading = true)
+                            state = state.copy(loadingWholePage = true)
                         }
                         is Resource.Success -> {
-                            state = state.copy(loading = false)
+                            state = state.copy(loadingWholePage = false)
                             res.result?.let {
-                                state = state.copy(jobsList = it)
+                                state = state.copy(allJobsList = it)
                             }
                         }
                     }

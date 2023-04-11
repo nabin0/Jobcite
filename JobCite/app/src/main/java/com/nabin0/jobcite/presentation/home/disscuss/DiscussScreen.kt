@@ -145,7 +145,7 @@ fun CustomBox(chatItem: ChatMessageModel) {
             )
 
             drawLine(
-                color = Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)), start = endPoint, end = controlPoint, strokeWidth = strokeWidth
+                color = lineColor, start = endPoint, end = controlPoint, strokeWidth = strokeWidth
             )
 
             drawCircle(
@@ -153,7 +153,6 @@ fun CustomBox(chatItem: ChatMessageModel) {
                 radius = 2.dp.toPx(),
                 center = controlPoint
             )
-
         }
     }
 }

@@ -26,7 +26,7 @@ fun RootNavigationGraph(
     ) {
         authNavGraph(navController = navHostController, authViewModel = authViewModel)
         composable(route = Graph.HOME) {
-            HomeScreen(toggleTheme = toggleTheme)
+            HomeScreen(toggleTheme = toggleTheme, rootNavHost = navHostController)
         }
     }
 }

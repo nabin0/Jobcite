@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -46,7 +47,9 @@ fun JobItem(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colors.onSurface
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(6.dp))
             }
@@ -55,7 +58,9 @@ fun JobItem(
                 Text(
                     text = it, style = TextStyle(
                         fontSize = 16.sp, color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(6.dp))
             }
@@ -73,7 +78,9 @@ fun JobItem(
                         text = it, style = TextStyle(
                             fontSize = 16.sp,
                             color = MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
-                        )
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 Spacer(modifier = Modifier.height(6.dp))
@@ -92,7 +99,9 @@ fun JobItem(
                         text = it, style = TextStyle(
                             fontSize = 16.sp,
                             color = MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
-                        )
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
                 Spacer(modifier = Modifier.height(6.dp))
@@ -111,7 +120,9 @@ fun JobItem(
                         text = it, style = TextStyle(
                             fontSize = 16.sp,
                             color = MaterialTheme.colors.onSurface.copy(alpha = 0.8f)
-                        )
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }

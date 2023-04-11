@@ -16,7 +16,10 @@ import com.nabin0.jobcite.presentation.home.disscuss.DiscussScreenViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.components.JobDetailScreen
+import com.nabin0.jobcite.presentation.home.jobs_home.components.JobsListScreen
+import com.nabin0.jobcite.presentation.home.jobs_home.components.SearchJobsScreen
 import com.nabin0.jobcite.presentation.home.saved_jobs.SavedJobsScreen
+import com.nabin0.jobcite.presentation.home.settings.AboutApp
 import com.nabin0.jobcite.presentation.home.settings.SettingsScreen
 import com.nabin0.jobcite.presentation.home.settings.SettingsViewModel
 import com.nabin0.jobcite.presentation.home.study_resources.StudyResourceViewModel
@@ -27,7 +30,7 @@ import com.nabin0.jobcite.presentation.screens.Screens
 @Composable
 fun HomeNavGraph(
     modifier: Modifier, navHostController: NavHostController,
-    toggleTheme: () -> Unit
+    toggleTheme: () -> Unit, rootNavHost: NavHostController
 ) {
     NavHost(
         modifier = modifier,
@@ -50,7 +53,27 @@ fun HomeNavGraph(
 
         composable(route = BottomBarScreens.Settings.route) {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
-            SettingsScreen(navHostController = navHostController, viewModel = settingsViewModel, toggleTheme = toggleTheme)
+            SettingsScreen(
+                navHostController = navHostController,
+                viewModel = settingsViewModel,
+                toggleTheme = toggleTheme, rootNavHost = rootNavHost
+            )
+        }
+
+        composable(route = Screens.JobListScreen.route) {
+            val title =
+                navHostController.previousBackStackEntry?.savedStateHandle?.get<String>(Constants.SCREEN_TITLE)
+            val jobsViewModel: JobsViewModel = hiltViewModel()
+            JobsListScreen(
+                viewModel = jobsViewModel,
+                navController = navHostController,
+                title = title
+            )
+        }
+
+        composable(route = Screens.SearchJobScreen.route) {
+            val jobsViewModel: JobsViewModel = hiltViewModel()
+            SearchJobsScreen(viewModel = jobsViewModel, navHostController = navHostController)
         }
 
         composable(
@@ -83,6 +106,10 @@ fun HomeNavGraph(
             SavedJobsScreen(
                 navHostController = navHostController, savedJobsViewModel = savedJobsViewModel
             )
+        }
+
+        composable(route = Screens.AboutAppScreen.route) {
+            AboutApp()
         }
     }
 }

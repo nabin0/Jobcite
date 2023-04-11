@@ -1,48 +1,54 @@
 package com.nabin0.jobcite.presentation.home
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
-import com.nabin0.jobcite.presentation.home.components.JobsScreenAppbar
-import com.nabin0.jobcite.presentation.home.components.LoadingListShimmer
+import com.nabin0.jobcite.Constants
+import com.nabin0.jobcite.data.jobs.model.JobBasicInfo
+import com.nabin0.jobcite.data.jobs.model.JobsModelItem
 import com.nabin0.jobcite.presentation.home.jobs_home.JobItem
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsScreenEvents
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsViewModel
+import com.nabin0.jobcite.presentation.home.jobs_home.components.ShimmerAnimationForJobitems
 import com.nabin0.jobcite.presentation.screens.Screens
-import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
 
-    val state = viewModel.state
-    val listState = rememberLazyListState()
-    var lastIndex by remember {
-        mutableStateOf(-1)
-    }
-
     var refreshing by remember {
         mutableStateOf(false)
     }
+
+    val state = viewModel.state
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult(),
@@ -53,14 +59,14 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
         refreshing = refreshing,
         onRefresh = {
             refreshing = true
-            viewModel.onEvent(JobsScreenEvents.onRefresh)
+            viewModel.onEvent(JobsScreenEvents.OnRefresh)
             refreshing = false
         })
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = context){
-        viewModel.uiEventChannel.collect(){ event ->
-            when(event){
+    LaunchedEffect(key1 = context) {
+        viewModel.uiEventChannel.collect() { event ->
+            when (event) {
                 is JobsViewModel.JobsUiEvent.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
                 }
@@ -71,68 +77,313 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
         }
     }
 
+    val jobItem = JobsModelItem(
+        idForRoom = 1,
+        companyName = "Google",
+        experienceRequired = "0 - 1 years",
+        hiringCompanyLink = "https://www.google.com",
+        id = 2,
+        jobBasicInfo = JobBasicInfo(
+            industry = "it industry",
+            jobFunction = "work in andorid ",
+            qualification = "Btech graduate",
+            role = "Senior android developer",
+            specialization = "kotlin"
+        ),
+        jobDescription = "This is the andorid app development job opening for the skilled andoird developer haiving experience of 0 to 5 years. those who have required qualification cna join to the company.",
+        jobPostedOn = "today",
+        jobPostLink = "https://www.google.com",
+        jobSkills = listOf("kotlin", "java", "jetpack", "compose"),
+        jobTitle = "Android developer in jetpack compose",
+        location = "Gurgaon",
+        salary = "20lpa",
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .pullRefresh(state = refreshState)
     ) {
-        LazyColumn(
-            state = listState
-        ) {
-            item {
-                JobsScreenAppbar(title = "All Jobs",
-                    searchTextValue = state.searchText,
-                    isSearchBarVisible = state.isSearchBarVisible,
-                    onSearchIconClick = { viewModel.onEvent(JobsScreenEvents.onSearchIconClick) },
-                    onCloseIconClick = { viewModel.onEvent(JobsScreenEvents.onSearchBarCloseIconClick) },
-                    onSearchValueChange = { viewModel.onEvent(JobsScreenEvents.onSearchTextChange(it)) },
-                    onSearch = {
-                        viewModel.onEvent(JobsScreenEvents.searchJobs)
-                    },
-                    onSavedJobsIconClick = {
-                        navController.navigate(Screens.SavedJobs.route)
-                    })
-
-                Spacer(modifier = Modifier.height(5.dp))
+        TopAppBar(title = {
+            Text(
+                text = "Jobcite",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onPrimary,
+                    fontSize = 18.sp
+                )
+            )
+        }, actions = {
+            IconButton(onClick = {
+                navController.navigate(Screens.SearchJobScreen.route)
+            }) {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = "Search Icon",
+                    tint = MaterialTheme.colors.onPrimary
+                )
             }
+        }, modifier = Modifier
+            .padding(bottom = 5.dp)
+            .height(56.dp)
+            .align(Alignment.TopCenter)
+        )
 
-            if (state.loading) {
-                item {
-                    Box(
-                        modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 56.dp)
+                .pullRefresh(refreshState)
+        ) {
+            // Saved and events card section
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(6.dp)
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(16.dp)
+                            .height(110.dp)
+                            .clickable {
+                                navController.navigate(Screens.SavedJobs.route)
+                            }, elevation = 8.dp
                     ) {
-                        LoadingListShimmer(imageHeight = 300.dp, padding = 8.dp)
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Bookmarks,
+                                contentDescription = "Bookmark",
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(40.dp), tint = Color(0XFF30E3DF)
+                            )
+                            Text(
+                                text = "Saved Jobs",
+                                style = TextStyle(fontSize = 20.sp)
+                            )
+
+                        }
+                    }
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(16.dp)
+                            .height(110.dp)
+                            .clickable {
+                                val intent =
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_SOURCE_CODE_LINK))
+                                launcher.launch(intent)
+                            }, elevation = 8.dp
+                    ) {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Code,
+                                contentDescription = "source code",
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(50.dp), tint = Color(0XFF30E3DF)
+                            )
+                            Text(
+                                text = "Source Code",
+                                style = TextStyle(fontSize = 20.sp)
+                            )
+                        }
+                    }
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .padding(16.dp)
+                            .height(110.dp), elevation = 8.dp
+                    ) {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Event,
+                                contentDescription = "events",
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(50.dp), tint = Color(0XFF30E3DF)
+                            )
+                            Text(
+                                text = "Events Update",
+                                style = TextStyle(fontSize = 20.sp)
+                            )
+
+                        }
                     }
                 }
-            } else {
-                if (state.jobsList.isEmpty()) {
-                    item {
-                        Text(
-                            text = "No items found",
-                            modifier = Modifier.fillParentMaxSize(),
-                            fontSize = 40.sp,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                } else {
-                    itemsIndexed(state.jobsList) { index, item ->
-                        val offsetX = animateFloatAsState(
-                            if (index > lastIndex) -600f else 0f,
-                            animationSpec = tween(durationMillis = 300)
-                        )
-                        val lastVisibleIndex =
-                            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-                        lastIndex = lastVisibleIndex - 1
+            }
 
-                        JobItem(
+            // All Jobs Section
+            item {
+                if (state.loadingWholePage) {
+                    ShimmerAnimationForJobitems(imageHeight = 250.dp)
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 15.dp, start = 8.dp, end = 8.dp)
+                    ) {
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .offset(x = offsetX.value.dp),
-                            dataItem = item,
-                            intentLauncher = launcher,
-                            navController = navController
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
+                                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                                .clickable {
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        Constants.SCREEN_TITLE, "All Jobs"
+                                    )
+                                    navController.navigate(Screens.JobListScreen.route)
+                                },
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Jobs",
+                                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            )
+                            Icon(
+                                imageVector = Icons.Filled.ChevronRight,
+                                contentDescription = "Chevron Right",
+                                tint = MaterialTheme.colors.onPrimary,
+                                modifier = Modifier.size(24.dp)
+                            )
+
+                        }
+                        LazyRow(
+                            modifier = Modifier
+                                .padding(6.dp)
+                        ) {
+                            items(state.allJobsList.take(3)) { item ->
+                                JobItem(
+                                    modifier = Modifier.width(300.dp),
+                                    dataItem = item,
+                                    intentLauncher = launcher,
+                                    navController = navController
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Mobile dev jobs section
+            item {
+                if (state.loadingMobileDevJobsSection) {
+                    ShimmerAnimationForJobitems(imageHeight = 250.dp)
+                } else {
+                    if (state.mobileDevJobsList.isNotEmpty()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp, start = 8.dp, end = 8.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                                    .clickable {
+                                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                                            Constants.SCREEN_TITLE, "Mobile Jobs"
+                                        )
+                                        navController.navigate(Screens.JobListScreen.route)
+                                    },
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Mobile Development Jobs",
+                                    style = TextStyle(
+                                        fontSize = 22.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                                Icon(
+                                    imageVector = Icons.Filled.ChevronRight,
+                                    contentDescription = "Chevron Right",
+                                    tint = MaterialTheme.colors.onPrimary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                            LazyRow(
+                                modifier = Modifier
+                                    .padding(6.dp)
+                            ) {
+                                items(state.mobileDevJobsList.take(3)) { item ->
+                                    JobItem(
+                                        modifier = Modifier.width(300.dp),
+                                        dataItem = item,
+                                        intentLauncher = launcher,
+                                        navController = navController
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Web dev jobs section
+            item {
+                if (state.loadingWebDevJobsSection) {
+                    ShimmerAnimationForJobitems(imageHeight = 250.dp)
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, start = 8.dp, end = 8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                                .clickable {
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        Constants.SCREEN_TITLE, "Website Jobs"
+                                    )
+                                    navController.navigate(Screens.JobListScreen.route)
+                                },
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Website Development Jobs",
+                                style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            )
+                            Icon(
+                                imageVector = Icons.Filled.ChevronRight,
+                                contentDescription = "Chevron Right",
+                                tint = MaterialTheme.colors.onPrimary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        LazyRow(
+                            modifier = Modifier
+                                .padding(6.dp)
+                        ) {
+                            items(state.webDevJobsList.take(3)) { item ->
+                                JobItem(
+                                    modifier = Modifier.width(300.dp),
+                                    dataItem = item,
+                                    intentLauncher = launcher,
+                                    navController = navController
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -141,9 +392,9 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
         PullRefreshIndicator(
             refreshing = refreshing,
             state = refreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
+            modifier = Modifier
+                .zIndex(1f)
+                .align(Alignment.TopCenter)
         )
     }
 }
-
-
