@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -20,6 +21,8 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -73,34 +76,34 @@ fun SearchJobsScreen(navHostController: NavHostController, viewModel: JobsViewMo
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            TextField(
-                value = state.searchText,
-                onValueChange = { viewModel.onEvent(JobsScreenEvents.OnSearchTextChange(it)) },
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .fillMaxHeight(),
-                maxLines = 1, placeholder = {
-                    Text(
-                        text = "Search...", style = TextStyle(
-                            color = MaterialTheme.colors.onPrimary.copy(alpha = 0.6f)
+            Surface(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .shadow(elevation = 1.dp, shape = RoundedCornerShape(percent = 30))
+                .padding(8.dp)) {
+                TextField(
+                    value = state.searchText,
+                    onValueChange = { viewModel.onEvent(JobsScreenEvents.OnSearchTextChange(it)) },
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    maxLines = 1, placeholder = {
+                        Text(
+                            text = "Search...", style = TextStyle(
+                                color = MaterialTheme.colors.onPrimary.copy(alpha = 0.6f)
+                            )
                         )
-                    )
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = {
-                    viewModel.onEvent(JobsScreenEvents.SearchJobs)
-                })
-            )
-            Icon(
-                imageVector = Icons.Outlined.Search,
-                contentDescription = "Search Jobs",
-                modifier = Modifier
-                    .size(56.dp)
-                    .padding(6.dp)
-                    .clickable {
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        disabledIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = {
                         viewModel.onEvent(JobsScreenEvents.SearchJobs)
-                    }
-            )
+                    })
+                )
+            }
         }
 
         LazyColumn(
