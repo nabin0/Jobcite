@@ -2,6 +2,8 @@ package com.nabin0.jobcite.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.nabin0.jobcite.data.EventsRepository
+import com.nabin0.jobcite.data.EventsRepositoryImpl
 import com.nabin0.jobcite.data.PreferenceManager
 import com.nabin0.jobcite.domain.auth.repository.AuthRepository
 import com.nabin0.jobcite.data.authentication.AuthRepositoryImpl
@@ -49,6 +51,11 @@ class RepositoryModule {
     @Provides
     fun provideChatRepository(firebaseFirestore: FirebaseFirestore): ChatRepository {
         return ChatRepositoryImpl(firebaseFirestore)
+    }
+    @Singleton
+    @Provides
+    fun provideEventsRepository(firebaseFirestore: FirebaseFirestore): EventsRepository {
+        return EventsRepositoryImpl(firebaseFirestore)
     }
 
 }

@@ -29,7 +29,6 @@ class SavedJobsViewModel @Inject constructor(
         getAllSavedJobs()
     }
 
-
     fun onEvent(events: SavedJobsScreenEvents) {
         when (events) {
             is SavedJobsScreenEvents.deleteJob -> {

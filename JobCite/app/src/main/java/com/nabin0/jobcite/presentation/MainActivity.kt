@@ -38,10 +38,12 @@ class MainActivity : ComponentActivity() {
             if (isDarkThemeEnabled.value) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.statusBarColor = Color.Black.toArgb()
+                    window.navigationBarColor = Color.Black.toArgb()
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     window.statusBarColor = Color.White.toArgb()
+                    window.navigationBarColor = Color.White.toArgb()
                     window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
             }

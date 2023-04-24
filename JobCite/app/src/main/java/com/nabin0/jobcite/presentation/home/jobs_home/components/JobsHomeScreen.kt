@@ -396,6 +396,37 @@ fun BackLayerContent(navController: NavHostController, launcher: ActivityResultL
 
                 }
             }
+
+            Spacer(modifier = Modifier.width(20.dp))
+            Box(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(120.dp).clip(RoundedCornerShape(percent = 10))
+                    .background(Color.Black.copy(0.1f)).clickable {
+                        navController.navigate(Screens.EventsScreen.route)
+                    }
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Event,
+                        contentDescription = "events",
+                        modifier = Modifier
+                            .size(24.dp), tint = MaterialTheme.colors.onPrimary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Events Update",
+                        style = TextStyle(fontSize = 14.sp)
+                    )
+
+                }
+            }
+
             Spacer(modifier = Modifier.width(20.dp))
             Box(
                 modifier = Modifier
@@ -429,33 +460,7 @@ fun BackLayerContent(navController: NavHostController, launcher: ActivityResultL
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(20.dp))
-            Box(
-                modifier = Modifier
-                    .width(120.dp)
-                    .height(120.dp).clip(RoundedCornerShape(percent = 10))
-                    .background(Color.Black.copy(0.1f))
-            ) {
-                Column(
-                    Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Event,
-                        contentDescription = "events",
-                        modifier = Modifier
-                            .size(24.dp), tint = MaterialTheme.colors.onPrimary
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Events Update",
-                        style = TextStyle(fontSize = 14.sp)
-                    )
 
-                }
-            }
         }
     }
 }

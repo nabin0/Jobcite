@@ -6,7 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.nabin0.jobcite.data.jobs.model.JobsModelItem
 
-@Database(entities = [JobsModelItem::class], version = 1, exportSchema = false)
+@Database(entities = [JobsModelItem::class], version = 3, exportSchema = false)
 @TypeConverters(StringListConverter::class)
 abstract class JobDatabase : RoomDatabase() {
     abstract fun jobDao(): JobsDao

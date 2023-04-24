@@ -14,20 +14,18 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
 
-
     @Singleton
     @Provides
     fun providesJobsDatabase(context: Application): JobDatabase {
         return Room.databaseBuilder(context.applicationContext, JobDatabase::class.java, "jobs_db")
+            .fallbackToDestructiveMigration()
             .build()
     }
-
 
     @Singleton
     @Provides
     fun providesJobsDao(jobDatabase: JobDatabase): JobsDao {
         return jobDatabase.jobDao()
     }
-
 
 }

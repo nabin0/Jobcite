@@ -6,7 +6,5 @@ sealed class JobsScreenEvents {
     object GetWebsiteDevJobs : JobsScreenEvents()
     object SearchJobs: JobsScreenEvents()
     data class OnSearchTextChange(val text: String): JobsScreenEvents()
-    object OnSearchIconClick : JobsScreenEvents()
-    object OnSearchBarCloseIconClick : JobsScreenEvents()
     object OnRefresh : JobsScreenEvents()
 }

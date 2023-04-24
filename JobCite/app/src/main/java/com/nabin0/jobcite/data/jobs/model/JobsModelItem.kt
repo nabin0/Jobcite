@@ -12,8 +12,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class JobsModelItem(
 
-    @PrimaryKey(autoGenerate = true) val idForRoom: Int,
-
     @SerializedName("company_name")
     val companyName: String?,
 
@@ -33,8 +31,9 @@ data class JobsModelItem(
     @SerializedName("job_description")
     val jobDescription: String?,
 
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("job_post_link")
-    val jobPostLink: String?,
+    val jobPostLink: String,
 
     @SerializedName("job_posted_on")
     val jobPostedOn: String?,

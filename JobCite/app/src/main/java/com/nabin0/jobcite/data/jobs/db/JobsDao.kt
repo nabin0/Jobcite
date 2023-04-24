@@ -14,4 +14,7 @@ interface JobsDao {
 
     @Delete
     suspend fun deleteJob(jobItem: JobsModelItem): Int
+
+    @Query("SELECT COUNT(*) FROM jobs WHERE jobPostLink = :jobPostLink")
+    suspend fun hasItem(jobPostLink: String): Int
 }

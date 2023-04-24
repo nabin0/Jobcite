@@ -109,36 +109,6 @@ fun SettingsScreen(
                         text = "Account/App Controls",
                         style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 22.sp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(6.dp)
-                            .height(60.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(modifier = Modifier.fillMaxWidth(0.7f)) {
-                            Icon(
-                                imageVector = Icons.Outlined.Lock, contentDescription = "password",
-                                modifier = Modifier.size(24.dp)
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = "Change Password",
-                                style = TextStyle(fontSize = 20.sp)
-                            )
-                        }
-                        Icon(
-                            imageVector = Icons.Outlined.ChevronRight,
-                            contentDescription = "chevron right",
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    Divider(
-                        thickness = 1.dp,
-                        color = MaterialTheme.colors.onPrimary.copy(alpha = 0.2f)
-                    )
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Row(
@@ -224,16 +194,18 @@ fun SettingsScreen(
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(6.dp)
-                            .height(60.dp),
+                            .height(60.dp)
+                            .clickable {
+                                navHostController.navigate(Screens.AboutAppScreen.route)
+                            }
+                            .padding(6.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .clickable {
-                                navHostController.navigate(Screens.AboutAppScreen.route)
-                            }) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(0.7f)
+                        ) {
                             Icon(
                                 imageVector = Icons.Outlined.Info, contentDescription = "about",
                                 modifier = Modifier.size(24.dp)
@@ -258,19 +230,19 @@ fun SettingsScreen(
                         Modifier
                             .fillMaxWidth()
                             .padding(6.dp)
-                            .height(60.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .clickable {
+                            .height(60.dp).clickable {
                                 val intent = Intent(
                                     Intent.ACTION_VIEW,
                                     Uri.parse(Constants.GITHUB_SOURCE_CODE_LINK)
                                 )
                                 launcher.launch(intent)
-                            }) {
+                            },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            ) {
                             Icon(
                                 imageVector = Icons.Outlined.Code,
                                 contentDescription = "source code",

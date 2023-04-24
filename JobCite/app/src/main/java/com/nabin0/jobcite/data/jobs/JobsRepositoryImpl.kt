@@ -48,12 +48,20 @@ class JobsRepositoryImpl(
         }
     }
 
-    override suspend fun deleteSavedJob(jobItem: JobsModelItem, result: (Resource<String?>) -> Unit) {
+    override suspend fun hasJobItem(jobItem: JobsModelItem): Boolean {
+        val result = jobsDao.hasItem(jobItem.jobPostLink)
+        return result >= 1
+    }
+
+    override suspend fun deleteSavedJob(
+        jobItem: JobsModelItem,
+        result: (Resource<String?>) -> Unit
+    ) {
         try {
             jobsDao.deleteJob(jobItem).let {
-                if(it > 0){
+                if (it > 0) {
                     result.invoke(Resource.Success("Item deleted successfully"))
-                }else{
+                } else {
                     result.invoke(Resource.Failure(java.lang.Exception("Failed to delete item.")))
                 }
             }
@@ -64,10 +72,10 @@ class JobsRepositoryImpl(
 
     override suspend fun saveJob(jobItem: JobsModelItem, result: (Resource<String?>) -> Unit) {
         try {
-            jobsDao.saveJob(jobItem).let{
-                if(it > 0){
+            jobsDao.saveJob(jobItem).let {
+                if (it > 0) {
                     result.invoke(Resource.Success("Item saved successfully"))
-                }else{
+                } else {
                     result.invoke(Resource.Failure(java.lang.Exception("Failed to save item.")))
                 }
             }

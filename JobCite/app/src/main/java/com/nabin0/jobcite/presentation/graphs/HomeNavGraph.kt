@@ -1,5 +1,6 @@
 package com.nabin0.jobcite.presentation.graphs
 
+import android.provider.CalendarContract.Events
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,6 +14,9 @@ import com.nabin0.jobcite.presentation.home.JobHomeScreen
 import com.nabin0.jobcite.presentation.home.components.DiscussScreen
 import com.nabin0.jobcite.presentation.home.components.ResourcesScreen
 import com.nabin0.jobcite.presentation.home.disscuss.DiscussScreenViewModel
+import com.nabin0.jobcite.presentation.home.events.EventsScreen
+import com.nabin0.jobcite.presentation.home.events.EventsViewModel
+import com.nabin0.jobcite.presentation.home.jobs_home.JobsDetailViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsViewModel
 import com.nabin0.jobcite.presentation.home.jobs_home.components.JobDetailScreen
@@ -93,11 +97,11 @@ fun HomeNavGraph(
                 navHostController.previousBackStackEntry?.savedStateHandle?.get<JobsModelItem>(
                     Constants.JOB_DATA_ITEM
                 )
-            val savedJobsViewModel: SavedJobsViewModel = hiltViewModel()
+            val jobsDetailViewModel: JobsDetailViewModel = hiltViewModel()
             JobDetailScreen(
                 dataItem = item,
                 navHostController = navHostController,
-                savedJobsViewModel = savedJobsViewModel
+                jobsDetailViewModel = jobsDetailViewModel
             )
         }
 
@@ -110,6 +114,11 @@ fun HomeNavGraph(
 
         composable(route = Screens.AboutAppScreen.route) {
             AboutApp()
+        }
+
+        composable(route = Screens.EventsScreen.route) {
+            val eventsViewModel: EventsViewModel = hiltViewModel()
+            EventsScreen(eventsViewModel = eventsViewModel)
         }
     }
 }

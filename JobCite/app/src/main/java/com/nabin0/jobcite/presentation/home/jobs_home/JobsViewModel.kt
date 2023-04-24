@@ -34,14 +34,6 @@ class JobsViewModel @Inject constructor(
             JobsScreenEvents.GetJobs -> {
                 getJobs()
             }
-            JobsScreenEvents.OnSearchBarCloseIconClick -> {
-                state = state.copy(searchText = "")
-                state = state.copy(isSearchBarVisible = false)
-                getJobs()
-            }
-            JobsScreenEvents.OnSearchIconClick -> {
-                state = state.copy(isSearchBarVisible = true)
-            }
             JobsScreenEvents.SearchJobs -> {
                 searchJobs()
             }

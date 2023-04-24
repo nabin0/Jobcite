@@ -11,6 +11,7 @@ object Constants {
     const val LOGIN_STATUS = "Login_status"
     const val TAG = "MyTag"
     const val DARK_MODE = "dark_mode"
+    const val EVENTS = "events"
     const val SCREEN_TITLE = "screen_title"
-    const val GITHUB_SOURCE_CODE_LINK = "https://github.com/nabin0"
+    const val GITHUB_SOURCE_CODE_LINK = "https://github.com/nabin0/Jobcite"
 }

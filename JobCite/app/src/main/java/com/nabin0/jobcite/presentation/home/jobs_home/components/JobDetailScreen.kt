@@ -16,6 +16,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BookmarkAdd
+import androidx.compose.material.icons.filled.BookmarkAdded
 import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
@@ -35,18 +37,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.nabin0.jobcite.data.jobs.model.JobsModelItem
-import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsScreenEvents
-import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsTaskOperationEvent
-import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsViewModel
-import kotlinx.coroutines.flow.collect
+import com.nabin0.jobcite.presentation.home.jobs_home.JobDetailUiEvents
+import com.nabin0.jobcite.presentation.home.jobs_home.JobsDetailViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun JobDetailScreen(
     dataItem: JobsModelItem?,
     navHostController: NavHostController,
-    savedJobsViewModel: SavedJobsViewModel
+    jobsDetailViewModel: JobsDetailViewModel
 ) {
+
     val backCallback = remember {
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -68,6 +69,14 @@ fun JobDetailScreen(
     }
 
 
+    LaunchedEffect(key1 = Unit) {
+        dataItem?.let {
+            jobsDetailViewModel.hasJobItem(jobItem = it)
+        }
+    }
+
+    val bookmarked = jobsDetailViewModel.isBookmarked.value
+
     val intentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = {})
@@ -75,12 +84,13 @@ fun JobDetailScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
-        savedJobsViewModel.uiEventChannel.collect() { event ->
+        jobsDetailViewModel.uiEventChannel.collect() { event ->
             when (event) {
-                is SavedJobsTaskOperationEvent.Failure -> {
+                is JobDetailUiEvents.Failure -> {
                     Toast.makeText(context, event.failureMsg, Toast.LENGTH_SHORT).show()
                 }
-                is SavedJobsTaskOperationEvent.Success -> {
+
+                is JobDetailUiEvents.Success -> {
                     Toast.makeText(context, event.successMsg, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -178,17 +188,18 @@ fun JobDetailScreen(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
-
-            Icon(imageVector = Icons.Outlined.Bookmark,
+            val bookmarkIcon =
+                if (bookmarked) Icons.Default.BookmarkAdded else Icons.Default.BookmarkAdd
+            Icon(imageVector = bookmarkIcon,
                 contentDescription = "Bookmark icon",
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(end = 5.dp)
                     .clickable {
                         dataItem?.let { item ->
-                            savedJobsViewModel.onEvent(SavedJobsScreenEvents.saveJob(jobItem = item))
+                            jobsDetailViewModel.saveJobItem(item)
+                            jobsDetailViewModel.isBookmarked.value = true
                         }
-                    })
+                    }.padding(end = 5.dp))
         }
 
 
