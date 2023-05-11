@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.nabin0.jobcite.Constants
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.data.jobs.model.JobsModelItem
 import com.nabin0.jobcite.presentation.screens.Screens
 
@@ -37,7 +39,7 @@ fun JobItem(
 ) {
     Card(
         modifier = modifier.padding(2.dp),
-        elevation = 4.dp,
+        elevation = 1.dp,
         backgroundColor = MaterialTheme.colors.surface
     ) {
         Column(modifier = modifier.padding(6.dp)) {
@@ -149,7 +151,7 @@ fun JobItem(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(text = "View Details", style = TextStyle(
-                    fontSize = 16.sp, color = Color(0XFF30E3DF)
+                    fontSize = 16.sp, color = colorResource(id = R.color.primary2)
                 ), modifier = Modifier
                     .padding(5.dp)
                     .clickable {
@@ -159,7 +161,7 @@ fun JobItem(
                         navController.navigate(Screens.JobDetailScreen.route)
                     })
                 Spacer(modifier = Modifier.width(5.dp))
-                Button(
+                OutlinedButton(
                     onClick = {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(dataItem.jobPostLink))
                         intentLauncher.launch(intent)
@@ -167,10 +169,9 @@ fun JobItem(
                     modifier = Modifier
                         .height(45.dp)
                         .padding(top = 1.dp, bottom = 1.dp)
-                        .background( Color(0XFF30E3DF))
                 ) {
                     Text(
-                        text = "Open in browser", color = Color(0XFF30E3DF)
+                        text = "Open in browser", color = colorResource(id = R.color.primary2)
                     )
                 }
             }

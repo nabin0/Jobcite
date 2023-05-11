@@ -112,7 +112,7 @@ fun SearchJobsScreen(navHostController: NavHostController, viewModel: JobsViewMo
                                 showSuggestionList = true
                                 searchPerformed = false
                             }
-                        },
+                        }.padding(6.dp),
                     value = state.searchText,
                     onValueChange = { viewModel.onEvent(JobsScreenEvents.OnSearchTextChange(it)) },
                     leadingIcon = {

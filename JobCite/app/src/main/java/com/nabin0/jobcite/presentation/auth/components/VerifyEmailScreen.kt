@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
 
 @Composable
@@ -36,7 +38,7 @@ fun VerifyEmailScreen(
                 }
                 withStyle(
                     style = SpanStyle(
-                        color =  Color(0XFF30E3DF),
+                        color = colorResource(id = R.color.primary2),
                         fontSize = 24.sp,
                     )
                 ) {

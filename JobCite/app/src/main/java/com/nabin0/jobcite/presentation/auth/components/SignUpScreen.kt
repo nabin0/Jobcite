@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.data.utils.Resource
 import com.nabin0.jobcite.presentation.auth.ui_event.SignUpScreenEvent
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
@@ -69,7 +71,7 @@ fun SignUpScreen(
         Text(
             text = "Create Account",
             fontSize = 50.sp,
-            color = Color(0XFF30E3DF),
+            color = colorResource(id = R.color.primary2),
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(30.dp))
@@ -151,14 +153,13 @@ fun SignUpScreen(
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Button(
+        OutlinedButton(
             onClick = {
                 viewModel.onSignUpEvent(SignUpScreenEvent.SignUp)
             },
             modifier = Modifier
                 .fillMaxWidth(fraction = 0.8f)
                 .height(50.dp).padding(top = 2.dp, bottom = 2.dp)
-                .background( Color(0XFF30E3DF))
         ) {
             if (state.loading) {
                 CircularProgressIndicator(modifier = Modifier.size(40.dp))
@@ -171,7 +172,7 @@ fun SignUpScreen(
             withStyle(style = SpanStyle(color = MaterialTheme.colors.onBackground)) {
                 append("Already have a account? ")
             }
-            withStyle(style = SpanStyle(color = Color(0XFF30E3DF))) {
+            withStyle(style = SpanStyle(color = colorResource(id = R.color.primary2))) {
                 append("Login")
             }
         }, modifier = Modifier

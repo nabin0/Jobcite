@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nabin0.jobcite.presentation.home.study_resources.StudyResourceScreenEvents
 import com.nabin0.jobcite.presentation.home.study_resources.StudyResourceViewModel
 
@@ -33,16 +35,11 @@ fun ResourcesScreen(
     var lastIndex by remember { mutableStateOf(-1) }
     val listState = rememberLazyListState()
 
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
+
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         }
-
-    var refreshing by remember { mutableStateOf(false) }
-    val refreshState = rememberPullRefreshState(refreshing = refreshing, onRefresh = {
-        refreshing = true
-        viewModel.onEvent(StudyResourceScreenEvents.GetStudyResources)
-        refreshing = false
-    })
 
     val context = LocalContext.current
 
@@ -52,6 +49,7 @@ fun ResourcesScreen(
                 is StudyResourceViewModel.StudyResourceUiEvents.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
                 }
+
                 is StudyResourceViewModel.StudyResourceUiEvents.Success -> {
                     Toast.makeText(context, event.successMessage, Toast.LENGTH_SHORT).show()
                 }
@@ -60,11 +58,9 @@ fun ResourcesScreen(
     }
 
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(refreshState)
-    ) {
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+        onRefresh = { viewModel.onEvent(StudyResourceScreenEvents.GetStudyResources) }) {
         LazyColumn(
             state = listState
         ) {
@@ -113,10 +109,9 @@ fun ResourcesScreen(
                 }
             }
         }
-        PullRefreshIndicator(
-            refreshing = refreshing,
-            state = refreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
+
+
+
+
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.auth.ui_event.SignInScreenEvent
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
 
@@ -69,7 +71,7 @@ fun SignInScreen(
             Text(
                 text = "Welcome Back",
                 fontSize = 50.sp,
-                color =  Color(0XFF30E3DF),
+                color =  colorResource(id = R.color.primary2),
                 style = MaterialTheme.typography.h2
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -134,18 +136,17 @@ fun SignInScreen(
                     .clickable {
                         navigateToForgotScreen()
                     }, style = TextStyle(
-                    color = MaterialTheme.colors.primaryVariant
+                    color = MaterialTheme.colors.onPrimary
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Button(
+            OutlinedButton(
                 onClick = {
                     viewModel.onSignInEvent(SignInScreenEvent.SignIn)
                 },
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.8f)
-                    .height(50.dp).padding(top = 2.dp, bottom = 2.dp)
-                    .background( Color(0XFF30E3DF)),
+                    .height(50.dp).padding(top = 2.dp, bottom = 2.dp),
                 enabled = !state.loading
             ) {
                 if (state.loading) {
@@ -159,7 +160,7 @@ fun SignInScreen(
                 withStyle(style = SpanStyle(color = MaterialTheme.colors.onBackground)) {
                     append("Don't have account? ")
                 }
-                withStyle(style = SpanStyle(color =  Color(0XFF30E3DF))) {
+                withStyle(style = SpanStyle(color =  colorResource(id = R.color.primary2))) {
                     append("create a new account.")
                 }
             }, modifier = Modifier

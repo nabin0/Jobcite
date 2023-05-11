@@ -28,7 +28,8 @@ class UseCaseModule {
             signOutUseCase = SignOutUseCase(authRepository),
             signUpUseCase = SignUpUseCase(authRepository),
             getCurrentUserUseCase = GetCurrentUserUseCase(authRepository),
-            sendEmailVerification = SendEmailVerificationUseCase(authRepository)
+            sendEmailVerification = SendEmailVerificationUseCase(authRepository),
+            resetPasswordUseCase = ResetScreenUseCase(authRepository)
         )
     }
 

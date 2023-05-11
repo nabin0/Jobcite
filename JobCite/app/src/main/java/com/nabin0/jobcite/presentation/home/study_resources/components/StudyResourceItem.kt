@@ -13,11 +13,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.OpenInBrowser
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.nabin0.jobcite.Constants
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.Utils
 import com.nabin0.jobcite.data.study_resources.model.StudyResourceModel
 import com.nabin0.jobcite.presentation.screens.Screens
@@ -183,7 +186,7 @@ fun StudyResourceItem(
                                 shape = MaterialTheme.shapes.small,
                                 colors = ChipDefaults.chipColors(
                                     contentColor = Color.Black,
-                                    backgroundColor = Color(0XFF30E3DF).copy(alpha = 0.6f)
+                                    backgroundColor = colorResource(id = R.color.primary2).copy(alpha = 0.6f)
                                 ),
                                 modifier = Modifier.padding(2.dp)
                             ) {
@@ -219,7 +222,7 @@ fun StudyResourceItem(
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Icon(imageVector = Icons.Outlined.OpenInBrowser,
                         contentDescription = "Open Link",
-                        tint = Color(0XFF30E3DF),
+                        tint = colorResource(id = R.color.primary2),
                         modifier = Modifier
                             .fillMaxWidth(0.33f)
                             .weight(1f)
@@ -230,9 +233,9 @@ fun StudyResourceItem(
                                     Intent.createChooser(intent, "Choose browser to open the link.")
                                 intentLauncher.launch(chooserIntent)
                             })
-                    Icon(imageVector = Icons.Outlined.IosShare,
+                    Icon(imageVector = Icons.Rounded.Share,
                         contentDescription = "Share Link",
-                        tint = Color(0XFF30E3DF),
+                        tint = colorResource(id = R.color.primary2),
                         modifier = Modifier
                             .fillMaxWidth(0.33f)
                             .height(25.dp)
@@ -249,7 +252,7 @@ fun StudyResourceItem(
                             })
                     Icon(imageVector = Icons.Outlined.Info,
                         contentDescription = "Detail",
-                        tint = Color(0XFF30E3DF),
+                        tint = colorResource(id = R.color.primary2),
                         modifier = Modifier
                             .fillMaxWidth(0.33f)
                             .height(25.dp)

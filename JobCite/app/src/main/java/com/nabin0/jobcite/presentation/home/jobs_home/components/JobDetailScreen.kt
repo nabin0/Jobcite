@@ -30,12 +30,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.data.jobs.model.JobsModelItem
 import com.nabin0.jobcite.presentation.home.jobs_home.JobDetailUiEvents
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsDetailViewModel
@@ -199,7 +201,9 @@ fun JobDetailScreen(
                             jobsDetailViewModel.saveJobItem(item)
                             jobsDetailViewModel.isBookmarked.value = true
                         }
-                    }.padding(end = 5.dp))
+                    }
+                    .padding(end = 5.dp)
+            )
         }
 
 
@@ -262,7 +266,7 @@ fun JobDetailScreen(
                         shape = MaterialTheme.shapes.small,
                         colors = ChipDefaults.chipColors(
                             contentColor = Color.Black,
-                            backgroundColor = Color(0XFF30E3DF).copy(alpha = 0.6f)
+                            backgroundColor = colorResource(id = R.color.primary2).copy(alpha = 0.6f)
                         ),
                         modifier = Modifier.padding(2.dp)
                     ) {
@@ -306,34 +310,37 @@ fun JobDetailScreen(
         }
 
         Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             dataItem?.jobPostLink?.let {
-                Button(
+                OutlinedButton(
                     onClick = {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         intentLauncher.launch(intent)
                     }, modifier = Modifier
                         .height(45.dp)
-                        .background(Color(0XFF30E3DF))
                         .weight(1f)
                 ) {
-                    Text(text = "Job Post", color = Color(0XFF30E3DF), fontWeight = FontWeight.Bold)
+                    Text(text = "Job Post", color = colorResource(id = R.color.primary2), fontWeight = FontWeight.Bold)
                 }
             }
             Spacer(modifier = Modifier.width(5.dp))
             dataItem?.hiringCompanyLink?.let {
-                Button(
+                OutlinedButton(
                     onClick = {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         intentLauncher.launch(intent)
                     }, modifier = Modifier
                         .height(45.dp)
-                        .background(Color(0XFF30E3DF))
                         .weight(1f)
                 ) {
                     Text(
                         text = "Company Website",
-                        color = Color(0XFF30E3DF),
+                        color = colorResource(id = R.color.primary2),
                         fontWeight = FontWeight.Bold
                     )
                 }

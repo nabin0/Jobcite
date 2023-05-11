@@ -8,6 +8,9 @@ import com.nabin0.jobcite.domain.jobs.JobsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +19,11 @@ import javax.inject.Inject
 class JobsViewModel @Inject constructor(
     private val jobsRepository: JobsRepository
 ) : ViewModel() {
+
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
 
     private val _uiEventChannel = Channel<JobsUiEvent>()
     val uiEventChannel = _uiEventChannel.receiveAsFlow()
@@ -34,18 +42,23 @@ class JobsViewModel @Inject constructor(
             JobsScreenEvents.GetJobs -> {
                 getJobs()
             }
+
             JobsScreenEvents.SearchJobs -> {
                 searchJobs()
             }
+
             is JobsScreenEvents.OnSearchTextChange -> {
                 state = state.copy(searchText = event.text)
             }
+
             JobsScreenEvents.OnRefresh -> {
                 refresh()
             }
+
             JobsScreenEvents.GetMobileDevJobs -> {
                 getMobileDevJobs()
             }
+
             JobsScreenEvents.GetWebsiteDevJobs -> {
                 getWebDevJobs()
             }
@@ -62,9 +75,11 @@ class JobsViewModel @Inject constructor(
                             state = state.copy(loadingWebDevJobsSection = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
+
                         Resource.Loading -> {
                             state = state.copy(loadingWebDevJobsSection = true)
                         }
+
                         is Resource.Success -> {
                             state = state.copy(loadingWebDevJobsSection = false)
                             res.result?.let {
@@ -87,9 +102,11 @@ class JobsViewModel @Inject constructor(
                             state = state.copy(loadingMobileDevJobsSection = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
+
                         Resource.Loading -> {
                             state = state.copy(loadingMobileDevJobsSection = true)
                         }
+
                         is Resource.Success -> {
                             state = state.copy(loadingMobileDevJobsSection = false)
                             res.result?.let {
@@ -103,9 +120,11 @@ class JobsViewModel @Inject constructor(
     }
 
     private fun refresh() {
+        _isRefreshing.value = true
         getJobs()
         getMobileDevJobs()
         getWebDevJobs()
+        _isRefreshing.value = false
     }
 
     private fun searchJobs() {
@@ -118,9 +137,11 @@ class JobsViewModel @Inject constructor(
                             state = state.copy(loadingWholePage = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
+
                         Resource.Loading -> {
                             state = state.copy(loadingWholePage = true)
                         }
+
                         is Resource.Success -> {
                             state = state.copy(loadingWholePage = false)
                             res.result?.let {
@@ -144,9 +165,11 @@ class JobsViewModel @Inject constructor(
                             state = state.copy(loadingWholePage = false)
                             _uiEventChannel.send(JobsUiEvent.Failure("Error: ${res.exception}"))
                         }
+
                         Resource.Loading -> {
                             state = state.copy(loadingWholePage = true)
                         }
+
                         is Resource.Success -> {
                             state = state.copy(loadingWholePage = false)
                             res.result?.let {

@@ -1,11 +1,13 @@
 package com.nabin0.jobcite.data.authentication
 
+import android.util.Log
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.nabin0.jobcite.Constants.LOGIN_STATUS
+import com.nabin0.jobcite.Constants.TAG
 import com.nabin0.jobcite.Constants.USER_ID
 import com.nabin0.jobcite.Constants.USER_NAME
 import com.nabin0.jobcite.data.PreferenceManager
@@ -45,9 +47,9 @@ class AuthRepositoryImpl(
     ): Resource<FirebaseUser> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            if(result!= null){
+            if (result != null) {
                 return checkEmailVerification(result)
-            }else{
+            } else {
                 return Resource.Failure(java.lang.Exception("Unknown error occurred"))
             }
         } catch (e: Exception) {
@@ -64,7 +66,7 @@ class AuthRepositoryImpl(
                 preferenceManager.putString(USER_NAME, it.displayName.toString())
             }
             Resource.Success(result.user!!)
-        }else{
+        } else {
             Resource.Failure(java.lang.Exception("Verify Your email first."))
         }
     }
@@ -111,4 +113,12 @@ class AuthRepositoryImpl(
             firebaseAuth.removeAuthStateListener(authStateListener)
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), firebaseAuth.currentUser == null)
+
+    override suspend fun resetPassword(email: String) {
+        firebaseAuth.sendPasswordResetEmail(email).addOnSuccessListener {
+            Log.d(TAG, "resetPassword: success")
+        }.addOnFailureListener {
+            Log.d(TAG, "resetPassword: failed $it")
+        }
+    }
 }

@@ -10,6 +10,9 @@ import com.nabin0.jobcite.data.utils.Resource
 import com.nabin0.jobcite.domain.study_resources.usecase.StudyResourceUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +23,10 @@ class StudyResourceViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(StudyResourceState())
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
 
     private val _uiEventChannel = Channel<StudyResourceUiEvents>()
     val uiEventChannel = _uiEventChannel.receiveAsFlow()
@@ -52,20 +59,24 @@ class StudyResourceViewModel @Inject constructor(
 
     private fun searchStudyResources() {
         state = state.copy(loading = true)
+        _isRefreshing.value = true
         viewModelScope.launch {
             studyResourceUseCases.searchStudyResourceUseCase(state.searchText) { result ->
                 viewModelScope.launch {
                     when (result) {
                         is Resource.Failure -> {
                             state = state.copy(loading = false)
+                            _isRefreshing.value = false
                             _uiEventChannel.send(StudyResourceUiEvents.Failure("Failed to retrieve data. ${result.exception.toString()}"))
                         }
                         Resource.Loading -> {
                             state = state.copy(loading = true)
+                            _isRefreshing.value = true
                         }
                         is Resource.Success -> {
                             state = state.copy(dataList = result.result.toList())
                             state = state.copy(loading = false)
+                            _isRefreshing.value = false
                         }
                     }
                 }

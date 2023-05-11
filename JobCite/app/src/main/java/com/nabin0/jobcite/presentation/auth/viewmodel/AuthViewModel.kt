@@ -38,9 +38,11 @@ class AuthViewModel @Inject constructor(
             is SignInScreenEvent.EmailChanged -> {
                 signInState = signInState.copy(email = event.email)
             }
+
             is SignInScreenEvent.PasswordChanged -> {
                 signInState = signInState.copy(password = event.password)
             }
+
             SignInScreenEvent.SignIn -> {
                 submitSignInData()
             }
@@ -68,7 +70,8 @@ class AuthViewModel @Inject constructor(
         )
         viewModelScope.launch {
             signInState = signInState.copy(loading = true)
-            when (val signInResult = authUseCases.signInUseCase(signInState.email, signInState.password)) {
+            when (val signInResult =
+                authUseCases.signInUseCase(signInState.email, signInState.password)) {
                 is Resource.Failure -> {
                     signInState = signInState.copy(loading = false)
 
@@ -76,14 +79,17 @@ class AuthViewModel @Inject constructor(
                         is FirebaseAuthInvalidUserException -> {
                             _signInEventChannel.send(SignInValidationEvents.Failure("The account do not exist. Create an account first to login."))
                         }
+
                         else -> {
                             _signInEventChannel.send(SignInValidationEvents.Failure(signInResult.exception.toString()))
                         }
                     }
                 }
+
                 Resource.Loading -> {
                     signInState = signInState.copy(loading = true)
                 }
+
                 is Resource.Success -> {
                     signInState = signInState.copy(loading = false)
                     _signInEventChannel.send(SignInValidationEvents.Success)
@@ -103,12 +109,15 @@ class AuthViewModel @Inject constructor(
             is SignUpScreenEvent.EmailChanged -> {
                 signUpState = signUpState.copy(email = event.email)
             }
+
             is SignUpScreenEvent.NameChanged -> {
                 signUpState = signUpState.copy(name = event.name)
             }
+
             is SignUpScreenEvent.PasswordChanged -> {
                 signUpState = signUpState.copy(password = event.password)
             }
+
             SignUpScreenEvent.SignUp -> {
                 submitSignUpData()
             }
@@ -148,21 +157,26 @@ class AuthViewModel @Inject constructor(
                         is FirebaseAuthWeakPasswordException -> {
                             _signUpEventChannel.send(SignUpValidationEvents.Failure("Password is too weak. Please select a storng password."))
                         }
+
                         is FirebaseAuthInvalidCredentialsException -> {
                             _signUpEventChannel.send(SignUpValidationEvents.Failure("Invalid Credentials. Check your email and password and try again."))
                         }
+
                         is FirebaseAuthUserCollisionException -> {
                             _signUpEventChannel.send(SignUpValidationEvents.Failure("An account already exist with this email."))
                         }
+
                         else -> {
                             _signUpEventChannel.send(SignUpValidationEvents.Failure(signUpResult.exception.toString()))
                         }
                     }
 
                 }
+
                 Resource.Loading -> {
                     signUpState = signUpState.copy(loading = true)
                 }
+
                 is Resource.Success -> {
                     signUpState = signUpState.copy(loading = false)
                     launch {
@@ -173,6 +187,7 @@ class AuthViewModel @Inject constructor(
                                     res.exception.toString()
                                 )
                             )
+
                             Resource.Loading -> {}
                             is Resource.Success -> {}
                         }
@@ -180,6 +195,15 @@ class AuthViewModel @Inject constructor(
                     }
                     _signUpEventChannel.send(SignUpValidationEvents.Success)
                 }
+            }
+        }
+    }
+
+    // --- Forgot password ---
+    fun resetPassword(email: String) {
+        if (email.isNotEmpty()) {
+            viewModelScope.launch {
+                authUseCases.resetPasswordUseCase.invoke(email)
             }
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.nabin0.jobcite.Constants
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.screens.AuthScreens
 import com.nabin0.jobcite.presentation.screens.Screens
 
@@ -291,7 +293,7 @@ fun AboutApp() {
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Jobcite", style = TextStyle(fontSize = 30.sp, color = Color(0XFF30E3DF)))
+        Text(text = "Jobcite", style = TextStyle(fontSize = 30.sp, color = colorResource(id = R.color.primary2)))
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Version 1.00.000",

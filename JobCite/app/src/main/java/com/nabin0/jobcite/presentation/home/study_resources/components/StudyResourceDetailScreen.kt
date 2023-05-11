@@ -25,12 +25,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.Utils
 import com.nabin0.jobcite.data.study_resources.model.StudyResourceModel
 
@@ -71,7 +73,7 @@ fun StudyResourceDetailScreen(dataItem: StudyResourceModel?, navHostController: 
                     }
                     withStyle(
                         style = SpanStyle(
-                            color = Color(0XFF30E3DF), fontWeight = FontWeight.Bold
+                            color = colorResource(id = R.color.primary2), fontWeight = FontWeight.Bold
                         )
                     ) {
                         append(it)
@@ -188,7 +190,7 @@ fun StudyResourceDetailScreen(dataItem: StudyResourceModel?, navHostController: 
                         shape = MaterialTheme.shapes.small,
                         colors = ChipDefaults.chipColors(
                             contentColor = Color.Black,
-                            backgroundColor = Color(0XFF30E3DF).copy(alpha = 0.6f)
+                            backgroundColor = colorResource(id = R.color.primary2).copy(alpha = 0.6f)
                         ),
                         modifier = Modifier.padding(2.dp)
                     ) {

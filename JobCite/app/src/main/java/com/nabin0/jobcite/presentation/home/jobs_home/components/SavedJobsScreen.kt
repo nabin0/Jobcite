@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -46,6 +47,7 @@ fun SavedJobsScreen(navHostController: NavHostController, savedJobsViewModel: Sa
                 is SavedJobsTaskOperationEvent.Failure -> {
                     Toast.makeText(context, event.failureMsg, Toast.LENGTH_SHORT).show()
                 }
+
                 is SavedJobsTaskOperationEvent.Success -> {
                     Toast.makeText(context, event.successMsg, Toast.LENGTH_SHORT).show()
                 }
@@ -76,7 +78,10 @@ fun SavedJobsScreen(navHostController: NavHostController, savedJobsViewModel: Sa
                         Text(text = "No Item Found")
                     }
                 } else {
-                    itemsIndexed(state.jobsList) { _, item ->
+                    items(items = state.jobsList,
+                        key = { item ->
+                            item.id
+                        }) { item ->
                         JobItem(modifier = Modifier.fillMaxWidth(),
                             dataItem = item,
                             intentLauncher = launcher,

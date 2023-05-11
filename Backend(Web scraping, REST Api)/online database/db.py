@@ -1,10 +1,10 @@
 import pymysql
 
 conn = pymysql.connect(
-    host= 'sql12.freesqldatabase.com',
-    database='sql12608851',
-    user='sql12608851',
-    password='kEHTqt2Ihg',
+    host='127.0.0.1',
+    database='nabin0$jobs',
+    user='nabin0',
+    password='X!2v6XXattjwVDd',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )

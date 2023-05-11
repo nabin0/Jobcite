@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nabin0.jobcite.presentation.home.components.LoadingListShimmer
 import com.nabin0.jobcite.presentation.home.jobs_home.JobItem
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsScreenEvents
@@ -38,26 +40,14 @@ fun JobsListScreen(
 ) {
     val state = viewModel.state
     val listState = rememberLazyListState()
-    var lastIndex by remember {
-        mutableStateOf(-1)
-    }
 
-    var refreshing by remember {
-        mutableStateOf(false)
-    }
+    val refreshing by viewModel.isRefreshing.collectAsState()
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult(),
             onResult = {
             })
 
-    val refreshState = rememberPullRefreshState(
-        refreshing = refreshing,
-        onRefresh = {
-            refreshing = true
-            viewModel.onEvent(JobsScreenEvents.OnRefresh)
-            refreshing = false
-        })
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
@@ -66,6 +56,7 @@ fun JobsListScreen(
                 is JobsViewModel.JobsUiEvent.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
                 }
+
                 JobsViewModel.JobsUiEvent.Success -> {
                     Toast.makeText(context, "Task Successful.", Toast.LENGTH_SHORT).show()
                 }
@@ -73,79 +64,71 @@ fun JobsListScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(state = refreshState)
-    ) {
-        LazyColumn(
-            state = listState
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        onRefresh = { viewModel.onEvent(JobsScreenEvents.OnRefresh) }) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            item {
-                Surface(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)) {
-                    Text(text = title.toString(), style = TextStyle(fontSize = 25.sp))
-                }
-
-                Spacer(modifier = Modifier.height(5.dp))
-            }
-
-
-            if (state.loadingWholePage) {
+            LazyColumn(
+                state = listState
+            ) {
                 item {
-                    Box(
-                        modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        LoadingListShimmer(imageHeight = 300.dp, padding = 8.dp)
+                        Text(text = title.toString(), style = TextStyle(fontSize = 25.sp))
                     }
+
+                    Spacer(modifier = Modifier.height(5.dp))
                 }
-            } else {
-                if (state.allJobsList.isEmpty()) {
+
+
+                if (state.loadingWholePage) {
                     item {
-                        Text(
-                            text = "No items found",
-                            modifier = Modifier.fillParentMaxSize(),
-                            fontSize = 40.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        Box(
+                            modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center
+                        ) {
+                            LoadingListShimmer(imageHeight = 300.dp, padding = 8.dp)
+                        }
                     }
                 } else {
+                    if (state.allJobsList.isEmpty()) {
+                        item {
+                            Text(
+                                text = "No items found",
+                                modifier = Modifier.fillParentMaxSize(),
+                                fontSize = 40.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    } else {
 
-                    val list = when (title) {
-                        "All Jobs" -> state.allJobsList
-                        "Website Jobs" -> state.webDevJobsList
-                        "Mobile Jobs" -> state.mobileDevJobsList
-                        else -> state.allJobsList
-                    }
+                        val list = when (title) {
+                            "All Jobs" -> state.allJobsList
+                            "Website Jobs" -> state.webDevJobsList
+                            "Mobile Jobs" -> state.mobileDevJobsList
+                            else -> state.allJobsList
+                        }
 
-                    itemsIndexed(list) { index, item ->
-                        val offsetX = animateFloatAsState(
-                            if (index > lastIndex) -600f else 0f,
-                            animationSpec = tween(durationMillis = 300)
-                        )
-                        val lastVisibleIndex =
-                            listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-                        lastIndex = lastVisibleIndex - 1
-
-                        JobItem(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .offset(x = offsetX.value.dp),
-                            dataItem = item,
-                            intentLauncher = launcher,
-                            navController = navController
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        itemsIndexed(list) { index, item ->
+                            JobItem(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                dataItem = item,
+                                intentLauncher = launcher,
+                                navController = navController
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
                     }
                 }
             }
         }
-
-        PullRefreshIndicator(
-            refreshing = refreshing,
-            state = refreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
+
 }

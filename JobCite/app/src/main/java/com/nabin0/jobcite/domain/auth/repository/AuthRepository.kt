@@ -14,4 +14,6 @@ interface AuthRepository {
     fun signOut()
     suspend fun revokeAccess(): Resource<Boolean>
     fun getAuthState(viewModelScope: CoroutineScope): StateFlow<Boolean>
+    suspend fun resetPassword(email: String)
+
 }
