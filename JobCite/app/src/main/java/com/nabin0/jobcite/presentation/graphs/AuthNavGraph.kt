@@ -8,6 +8,8 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.nabin0.jobcite.presentation.auth.*
 import com.nabin0.jobcite.presentation.auth.components.ForgotPasswordScreen
+import com.nabin0.jobcite.presentation.auth.components.SignInScreen
+import com.nabin0.jobcite.presentation.auth.components.SignUpScreen
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
 import com.nabin0.jobcite.presentation.graphs.Graph
 import com.nabin0.jobcite.presentation.screens.AuthScreens

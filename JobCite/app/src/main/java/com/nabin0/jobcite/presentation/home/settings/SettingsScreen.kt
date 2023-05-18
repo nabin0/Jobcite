@@ -31,7 +31,8 @@ import com.nabin0.jobcite.presentation.screens.Screens
 fun SettingsScreen(
     navHostController: NavHostController,
     viewModel: SettingsViewModel,
-    toggleTheme: () -> Unit, rootNavHost: NavHostController
+    toggleTheme: () -> Unit,
+    rootNavHost: NavHostController
 ) {
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult(),

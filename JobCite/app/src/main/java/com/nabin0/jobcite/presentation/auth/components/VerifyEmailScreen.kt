@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.nabin0.jobcite.R
@@ -51,6 +52,6 @@ fun VerifyEmailScreen(
                 .align(Alignment.CenterHorizontally)
                 .clickable {
                     navigateToSignInScreen()
-                })
+                }, textAlign = TextAlign.Center)
     }
 }

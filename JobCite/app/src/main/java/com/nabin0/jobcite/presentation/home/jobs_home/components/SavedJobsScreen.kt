@@ -31,14 +31,10 @@ import com.nabin0.jobcite.presentation.home.jobs_home.SavedJobsViewModel
 fun SavedJobsScreen(navHostController: NavHostController, savedJobsViewModel: SavedJobsViewModel) {
 
     val state = savedJobsViewModel.state
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = {})
-
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult(), onResult = {})
     val refreshState = rememberPullRefreshState(refreshing = state.refreshing, onRefresh = {
         savedJobsViewModel.onEvent(SavedJobsScreenEvents.refresh)
     })
-
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {

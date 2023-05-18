@@ -25,22 +25,15 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.nabin0.jobcite.presentation.home.study_resources.StudyResourceScreenEvents
 import com.nabin0.jobcite.presentation.home.study_resources.StudyResourceViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ResourcesScreen(
     viewModel: StudyResourceViewModel, navController: NavHostController
 ) {
-
     val state = viewModel.state
     var lastIndex by remember { mutableStateOf(-1) }
     val listState = rememberLazyListState()
-
     val isRefreshing by viewModel.isRefreshing.collectAsState()
-
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        }
-
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result -> }
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
@@ -56,7 +49,6 @@ fun ResourcesScreen(
             }
         }
     }
-
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = isRefreshing),

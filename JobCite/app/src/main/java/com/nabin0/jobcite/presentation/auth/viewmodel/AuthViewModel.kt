@@ -20,13 +20,14 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases
 ) : ViewModel() {
 
-    // --- SignIn ---
+    /**
+     * --- SignIn ---
+     */
 
     private val _signInEventChannel = Channel<SignInValidationEvents>()
     val signInEventChannel = _signInEventChannel.receiveAsFlow()
@@ -98,7 +99,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    // --- SignUp ---
+    /**
+     * --- SignUp ---
+     */
     private val _signUpEventChannel = Channel<SignUpValidationEvents>()
     val signUpEventChannel = _signUpEventChannel.receiveAsFlow()
 
@@ -199,7 +202,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    // --- Forgot password ---
+    /**
+    --- Forgot password ---
+      */
     fun resetPassword(email: String) {
         if (email.isNotEmpty()) {
             viewModelScope.launch {
@@ -223,4 +228,40 @@ class AuthViewModel @Inject constructor(
         data class Failure(val errorMessage: String) : SignUpValidationEvents()
     }
 
+}
+
+class AuthViewModelForPreview{
+    private val _signInEventChannel = Channel<AuthViewModel.SignInValidationEvents>()
+    val signInEventChannel = _signInEventChannel.receiveAsFlow()
+
+    var signInState by mutableStateOf(SignInScreenState())
+    fun onSignInEvent(event: SignInScreenEvent) {
+        when (event) {
+            is SignInScreenEvent.EmailChanged -> {
+            }
+            is SignInScreenEvent.PasswordChanged -> {
+            }
+            SignInScreenEvent.SignIn -> {
+            }
+        }
+    }
+
+    // --- SignUp ---
+    private val _signUpEventChannel = Channel<AuthViewModel.SignUpValidationEvents>()
+    val signUpEventChannel = _signUpEventChannel.receiveAsFlow()
+
+    var signUpState by mutableStateOf(SignUpScreenState())
+
+    fun onSignUpEvent(event: SignUpScreenEvent) {
+        when (event) {
+            is SignUpScreenEvent.EmailChanged -> {
+            }
+            is SignUpScreenEvent.NameChanged -> {
+            }
+            is SignUpScreenEvent.PasswordChanged -> {
+            }
+            SignUpScreenEvent.SignUp -> {
+            }
+        }
+    }
 }

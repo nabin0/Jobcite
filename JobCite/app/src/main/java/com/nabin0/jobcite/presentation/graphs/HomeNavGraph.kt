@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import com.nabin0.jobcite.Constants
 import com.nabin0.jobcite.data.jobs.model.JobsModelItem
 import com.nabin0.jobcite.data.study_resources.model.StudyResourceModel
-import com.nabin0.jobcite.presentation.home.JobHomeScreen
+import com.nabin0.jobcite.presentation.home.jobs_home.components.JobHomeScreen
 import com.nabin0.jobcite.presentation.home.components.DiscussScreen
 import com.nabin0.jobcite.presentation.home.components.ResourcesScreen
 import com.nabin0.jobcite.presentation.home.disscuss.DiscussScreenViewModel

@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 from bs4 import BeautifulSoup
@@ -108,11 +109,12 @@ def get_job_results():
 def main():
     get_job_results()
 
-    # while True:
-    #     get_job_results()
-    #     time_in_secs = 300
-    #     print(f'Jobs wil be updated in {time_in_secs}.')
-    #     time.sleep(time_in_secs)
+    # Automates Scraping
+    while True:
+        get_job_results()
+        time_in_secs = 300
+        print(f'Jobs wil be updated in {time_in_secs}.')
+        time.sleep(time_in_secs)
     
 if __name__ == '__main__':
     main()

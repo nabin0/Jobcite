@@ -32,10 +32,8 @@ import kotlin.random.Random
 fun DiscussScreen(
     viewModel: DiscussScreenViewModel
 ) {
-
     val state = viewModel.state
     val listState = rememberLazyListState()
-
     LaunchedEffect(key1 = state.chatList.size) {
         if (state.chatList.isNotEmpty()) {
             listState.scrollToItem(state.chatList.size - 1)
@@ -48,7 +46,6 @@ fun DiscussScreen(
             .align(Alignment.TopCenter)
             .background(MaterialTheme.colors.primary),
             title = { Text(text = "Global Chat", fontWeight = FontWeight.Bold) })
-
         LazyColumn(
             modifier = Modifier
                 .padding(top = 56.dp, bottom = 56.dp).fillMaxSize(),
@@ -67,8 +64,7 @@ fun DiscussScreen(
                 .fillMaxWidth()
                 .padding(bottom = 2.dp, start = 8.dp, end = 8.dp, top = 1.dp)
                 .align(Alignment.BottomCenter)
-        ) {
-
+        )   {
             TextField(
                 modifier = Modifier
                     .weight(1f)

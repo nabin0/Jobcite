@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
 
 @Composable
@@ -33,12 +36,21 @@ fun ForgotPasswordScreen(
     ) {
         OutlinedTextField(value = email, onValueChange = { email = it }, placeholder = {
             Text(text = "Enter your email here")
-        })
+        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = colorResource(id = R.color.primary2),
+            unfocusedBorderColor = colorResource(id = R.color.primary2),
+            disabledBorderColor = colorResource(id = R.color.primary2),
+        )
+        )
 
         Button(onClick = {
-            authViewModel.resetPassword(email)
-            Toast.makeText(context, "Password Reset Email Sent To Your Mail.", Toast.LENGTH_SHORT)
-                .show()
+            if (email.isNotEmpty()) {
+                authViewModel.resetPassword(email)
+                Toast.makeText(
+                    context, "Password Reset Email Sent To Your Mail.", Toast.LENGTH_SHORT
+                ).show()
+            }
+
         }) {
             Text(text = "Get Password Reset Email")
         }

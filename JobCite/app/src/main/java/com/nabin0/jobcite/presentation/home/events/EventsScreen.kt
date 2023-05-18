@@ -98,11 +98,8 @@ fun EventsScreen(
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult(),
             onResult = {
             })
-
     val eventsList = eventsViewModel.eventsList
     val context = LocalContext.current
-
-
     Column(Modifier.fillMaxSize()) {
         TopAppBar(title = {
             Text(

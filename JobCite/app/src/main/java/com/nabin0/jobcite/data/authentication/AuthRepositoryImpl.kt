@@ -71,7 +71,6 @@ class AuthRepositoryImpl(
         }
     }
 
-
     override suspend fun sendEmailVerification(): Resource<Boolean> {
         return try {
             firebaseAuth.currentUser?.sendEmailVerification()?.await()

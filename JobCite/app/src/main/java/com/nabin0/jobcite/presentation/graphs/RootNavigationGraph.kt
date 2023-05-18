@@ -8,7 +8,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.nabin0.jobcite.presentation.authNavGraph
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
-import com.nabin0.jobcite.presentation.screens.HomeScreen
+import com.nabin0.jobcite.presentation.home.components.HomeScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

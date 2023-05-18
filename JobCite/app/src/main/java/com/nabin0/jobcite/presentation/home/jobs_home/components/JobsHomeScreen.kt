@@ -1,4 +1,4 @@
-package com.nabin0.jobcite.presentation.home
+package com.nabin0.jobcite.presentation.home.jobs_home.components
 
 import android.content.Intent
 import android.net.Uri
@@ -40,13 +40,14 @@ import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.home.jobs_home.JobItem
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsScreenEvents
 import com.nabin0.jobcite.presentation.home.jobs_home.JobsViewModel
-import com.nabin0.jobcite.presentation.home.jobs_home.components.ShimmerAnimationForJobitems
 import com.nabin0.jobcite.presentation.screens.Screens
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
-
+fun JobHomeScreen(
+    viewModel: JobsViewModel,
+   navController: NavHostController
+) {
     val context = LocalContext.current
 
     val launcher =
@@ -75,7 +76,6 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
             JobsScreenTopAppBar(navController)
         },
         scaffoldState = backDropScaffoldState,
-
         peekHeight = BackdropScaffoldDefaults.PeekHeight,
         persistentAppBar = true,
         backLayerBackgroundColor = colorResource(id = R.color.primary2),
@@ -85,7 +85,6 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
                 launcher = launcher
             )
         },
-
         frontLayerContent = {
             FrontLayerContent(
                 viewModel = viewModel,
@@ -99,7 +98,6 @@ fun JobHomeScreen(viewModel: JobsViewModel, navController: NavHostController) {
         frontLayerShape = BackdropScaffoldDefaults.frontLayerShape,
         frontLayerElevation = BackdropScaffoldDefaults.FrontLayerElevation,
         gesturesEnabled = true,
-
         ) {
 
     }

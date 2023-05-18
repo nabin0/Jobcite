@@ -1,4 +1,4 @@
-package com.nabin0.jobcite.presentation.auth
+package com.nabin0.jobcite.presentation.auth.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -13,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -22,20 +21,22 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabin0.jobcite.R
-import com.nabin0.jobcite.data.utils.Resource
 import com.nabin0.jobcite.presentation.auth.ui_event.SignUpScreenEvent
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
+import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModelForPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignUpScreen(
     viewModel: AuthViewModel,
-    navigateToSignInScreen: () -> Unit,
-    navigateToVerifyEmailScreen: () -> Unit
+    navigateToSignInScreen: () -> Unit = {},
+    navigateToVerifyEmailScreen: () -> Unit = {}
 ) {
+//    val viewModel = AuthViewModelForPreview()
     val state = viewModel.signUpState
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -46,6 +47,7 @@ fun SignUpScreen(
                 is AuthViewModel.SignUpValidationEvents.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
                 }
+
                 AuthViewModel.SignUpValidationEvents.Success -> {
                     navigateToVerifyEmailScreen()
                     Toast.makeText(
@@ -57,7 +59,6 @@ fun SignUpScreen(
             }
         }
     }
-
 
     Column(
         modifier = Modifier
@@ -159,12 +160,13 @@ fun SignUpScreen(
             },
             modifier = Modifier
                 .fillMaxWidth(fraction = 0.8f)
-                .height(50.dp).padding(top = 2.dp, bottom = 2.dp)
+                .height(50.dp)
+                .padding(top = 2.dp, bottom = 2.dp)
         ) {
             if (state.loading) {
-                CircularProgressIndicator(modifier = Modifier.size(40.dp))
+                CircularProgressIndicator(modifier = Modifier.size(40.dp), color = colorResource(id = R.color.primary2))
             } else {
-                Text(text = "SIGNUP")
+                Text(text = "SIGNUP", color = colorResource(id = R.color.primary2))
             }
         }
         Spacer(modifier = Modifier.height(20.dp))

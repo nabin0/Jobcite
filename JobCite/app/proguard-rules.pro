@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.nabin0.jobcite.data.study_resources.model.**{*; }
+-keep class com.nabin0.jobcite.data.chat.**{*; }

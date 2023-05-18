@@ -49,7 +49,6 @@ fun JobDetailScreen(
     navHostController: NavHostController,
     jobsDetailViewModel: JobsDetailViewModel
 ) {
-
     val backCallback = remember {
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -69,7 +68,6 @@ fun JobDetailScreen(
             backCallback.remove()
         }
     }
-
 
     LaunchedEffect(key1 = Unit) {
         dataItem?.let {
@@ -348,3 +346,4 @@ fun JobDetailScreen(
         }
     }
 }
+

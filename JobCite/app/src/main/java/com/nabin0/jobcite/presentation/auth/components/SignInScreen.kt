@@ -1,4 +1,4 @@
-package com.nabin0.jobcite.presentation.auth
+package com.nabin0.jobcite.presentation.auth.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -23,21 +23,22 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.auth.ui_event.SignInScreenEvent
 import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModel
+import com.nabin0.jobcite.presentation.auth.viewmodel.AuthViewModelForPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreen(
     viewModel: AuthViewModel,
-    navigateToForgotScreen: () -> Unit,
-    navigateToSignUpScreen: () -> Unit,
-    navigateToHomeScreen: () -> Unit
+    navigateToForgotScreen: () -> Unit = {},
+    navigateToSignUpScreen: () -> Unit = {},
+    navigateToHomeScreen: () -> Unit = {}
 ) {
-
     val state = viewModel.signInState
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
@@ -48,6 +49,7 @@ fun SignInScreen(
                 is AuthViewModel.SignInValidationEvents.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
                 }
+
                 AuthViewModel.SignInValidationEvents.Success -> {
                     navigateToHomeScreen()
                     Toast.makeText(context, "Successful login", Toast.LENGTH_SHORT).show()
@@ -71,7 +73,7 @@ fun SignInScreen(
             Text(
                 text = "Welcome Back",
                 fontSize = 50.sp,
-                color =  colorResource(id = R.color.primary2),
+                color = colorResource(id = R.color.primary2),
                 style = MaterialTheme.typography.h2
             )
             Spacer(modifier = Modifier.height(30.dp))
@@ -146,13 +148,14 @@ fun SignInScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.8f)
-                    .height(50.dp).padding(top = 2.dp, bottom = 2.dp),
+                    .height(50.dp)
+                    .padding(top = 2.dp, bottom = 2.dp),
                 enabled = !state.loading
             ) {
                 if (state.loading) {
-                    CircularProgressIndicator(modifier = Modifier.size(40.dp))
+                    CircularProgressIndicator(modifier = Modifier.size(40.dp), color = colorResource(id = R.color.primary2))
                 } else {
-                    Text(text = "LOGIN")
+                    Text(text = "LOGIN", color = colorResource(id = R.color.primary2))
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -160,7 +163,7 @@ fun SignInScreen(
                 withStyle(style = SpanStyle(color = MaterialTheme.colors.onBackground)) {
                     append("Don't have account? ")
                 }
-                withStyle(style = SpanStyle(color =  colorResource(id = R.color.primary2))) {
+                withStyle(style = SpanStyle(color = colorResource(id = R.color.primary2))) {
                     append("create a new account.")
                 }
             }, modifier = Modifier

@@ -39,10 +39,8 @@ import com.nabin0.jobcite.data.study_resources.model.StudyResourceModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun StudyResourceDetailScreen(dataItem: StudyResourceModel?, navHostController: NavHostController) {
-
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
-
 
     Column(
         modifier = Modifier

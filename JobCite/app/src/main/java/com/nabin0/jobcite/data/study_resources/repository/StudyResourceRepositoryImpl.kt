@@ -15,7 +15,6 @@ class StudyResourceRepositoryImpl(
     override suspend fun storeDataToFirestore(
         studyResourceModel: StudyResourceModel, result: (Resource<String>) -> Unit
     ) {
-
         firebaseFirestore.collection(Constants.COLLECTION_FIREBASE_STUDY_RESOURCE)
             .add(studyResourceModel).addOnSuccessListener {
                 result.invoke(

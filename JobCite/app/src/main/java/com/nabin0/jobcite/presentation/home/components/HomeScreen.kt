@@ -1,4 +1,4 @@
-package com.nabin0.jobcite.presentation.screens
+package com.nabin0.jobcite.presentation.home.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -17,10 +17,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nabin0.jobcite.R
 import com.nabin0.jobcite.presentation.graphs.HomeNavGraph
+import com.nabin0.jobcite.presentation.screens.BottomBarScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navHostController: NavHostController = rememberNavController(), toggleTheme: ()->Unit, rootNavHost: NavHostController) {
+fun HomeScreen(
+    navHostController: NavHostController = rememberNavController(),
+    toggleTheme: () -> Unit,
+    rootNavHost: NavHostController
+) {
     Scaffold(bottomBar = {
         BottomBar(navHostController = navHostController)
     }) { paddingValues ->
@@ -32,10 +37,14 @@ fun HomeScreen(navHostController: NavHostController = rememberNavController(), t
     }
 }
 
+
 @Composable
 fun BottomBar(navHostController: NavHostController) {
     val screens = listOf(
-        BottomBarScreens.Home, BottomBarScreens.Resources, BottomBarScreens.Discuss, BottomBarScreens.Settings
+        BottomBarScreens.Home,
+        BottomBarScreens.Resources,
+        BottomBarScreens.Discuss,
+        BottomBarScreens.Settings
     )
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
@@ -64,18 +73,29 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navHostController: NavHostController
 ) {
+    val isSelected = currentDestination?.hierarchy?.any {
+        it.route == screen.route
+    } == true
+
+    val itemColor = if (isSelected){
+        colorResource(id = R.color.primary2)
+    }else{
+        colorResource(id = R.color.primary2).copy(0.5f)
+    }
     BottomNavigationItem(label = {
-        Text(text = screen.title, color = colorResource(
-            id = R.color.primary2
-        ))
+        Text(
+            text = screen.title, color = itemColor
+        )
     },
-        icon = { Icon(imageVector = screen.icon, contentDescription = "Navigation Icon", tint =  colorResource(
-            id = R.color.primary2
-        )) },
-        selected = currentDestination?.hierarchy?.any {
-            it.route == screen.route
-        } == true,
-        unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
+        icon = {
+            Icon(
+                imageVector = screen.icon,
+                contentDescription = "Navigation Icon",
+            )
+        },
+        selected = isSelected,
+        unselectedContentColor = itemColor,
+        selectedContentColor = itemColor,
         onClick = {
             navHostController.navigate(screen.route) {
                 popUpTo(navHostController.graph.findStartDestination().id)
