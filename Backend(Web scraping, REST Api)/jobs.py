@@ -97,14 +97,24 @@ def get_job_data(job_page_link):
 
 def get_job_results():
     #Get all links for specific jobs 
-    jobs_url = 'https://www.timesjobs.com/candidate/job-search.html?searchType=Home_Search&from=submit&asKey=OFF&txtKeywords=&cboPresFuncArea=35#'
-    html_page = get_html_page(jobs_url)
-    parsed_html = parse_html_page(html_page)
-    links = get_links_from_main_page(parsed_html)
-    # job_data = get_job_data(links[1])
 
-    for link in links:
-        get_job_data(link)
+    jobUrls = [
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=Home_Search&from=submit&asKey=OFF&txtKeywords=&cboPresFuncArea=35#",
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=android&txtLocation=",
+        "https://www.timesjobs.com/candidate/job-search.html?from=submit&actualTxtKeywords=android&searchBy=0&rdoOperator=OR&searchType=personalizedSearch&luceneResultSize=25&postWeek=60&txtKeywords=android&pDate=I&sequence=2&startPage=1",
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=Website&txtLocation=",
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=Website+Development&txtLocation=",
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=software&txtLocation=india"
+    ]
+
+    for jobs_url in jobUrls:
+        html_page = get_html_page(jobs_url)
+        parsed_html = parse_html_page(html_page)
+        links = get_links_from_main_page(parsed_html)
+        # job_data = get_job_data(links[1])
+
+        for link in links:
+            get_job_data(link)
 
 def main():
     get_job_results()
