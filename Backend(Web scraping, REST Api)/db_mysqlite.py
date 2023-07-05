@@ -1,7 +1,6 @@
 import sqlite3
 
 conn = sqlite3.connect("jobs.sqlite")
-
 cursor = conn.cursor()
 
 query = """CREATE TABLE jobs (
@@ -20,3 +19,18 @@ query = """CREATE TABLE jobs (
 )"""
 
 cursor.execute(query)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

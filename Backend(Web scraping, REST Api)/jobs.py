@@ -104,7 +104,8 @@ def get_job_results():
         "https://www.timesjobs.com/candidate/job-search.html?from=submit&actualTxtKeywords=android&searchBy=0&rdoOperator=OR&searchType=personalizedSearch&luceneResultSize=25&postWeek=60&txtKeywords=android&pDate=I&sequence=2&startPage=1",
         "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=Website&txtLocation=",
         "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=Website+Development&txtLocation=",
-        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=software&txtLocation=india"
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=software&txtLocation=india",
+        "https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords=game&txtLocation=india"
     ]
 
     for jobs_url in jobUrls:
