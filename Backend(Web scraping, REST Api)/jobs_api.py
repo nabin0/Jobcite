@@ -6,6 +6,34 @@ import os
 app = Flask(__name__)
 
 
+@app.route('/videos', methods = ['GET'])
+def videos():
+    try:
+        file_path = os.path.join(os.path.dirname(__file__), "videos.json")
+        with open(file_path, 'r') as file:
+            movies_data = json.load(file)
+        return jsonify(movies_data)
+    except FileNotFoundError:
+        return jsonify({'error': 'File not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/video/<int:movie_id>')
+def get_movie(movie_id):
+    try:
+        file_path = os.path.join(os.path.dirname(__file__), "videos.json")
+        with open(file_path, 'r') as file:
+            movies_data = json.load(file)
+        for movie in movies_data:
+            if movie.get('id') == movie_id:
+                return jsonify(movie)
+        return jsonify({'error': 'Movie not found'}), 404
+    except FileNotFoundError:
+        return jsonify({'error': 'File not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 def db_connection():
     conn = None
     try:

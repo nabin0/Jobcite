@@ -1,0 +1,73 @@
+[
+    {
+        "id": 1,
+        "videoUrl": "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
+        "listOfClosedCaptions": [
+            {
+                "subtitleLink": "https://cchoichoi.viewlift.com/2019/03/1552555747726_astey_ladies_ep_01_subs_final.srt",
+                "language": "english"
+            }
+        ],
+        "title": "Tears of Steel.m3u8",
+        "videoDescription": "A science fiction short film. Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": null,
+        "isDrmEnabled": null,
+        "certificateUrl": null
+    },
+    {
+        "id": 2,
+        "videoUrl": "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8",
+        "listOfClosedCaptions": null,
+        "title": "Sample Video 2.m3u8",
+        "videoDescription": "Another example video. Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": null,
+        "isDrmEnabled": false,
+        "certificateUrl": null
+    },
+    {
+        "id": 3,
+        "videoUrl": "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8",
+        "listOfClosedCaptions": null,
+        "title": "Sample Video from bitmovin.m3u8",
+        "videoDescription": "Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": null,
+        "isDrmEnabled": false,
+        "certificateUrl": null
+    },
+    {
+        "id": 4,
+        "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "listOfClosedCaptions": null,
+        "title": "BigBuckBunny Sample Video",
+        "videoDescription": "Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": null,
+        "isDrmEnabled": false,
+        "certificateUrl": null
+    },
+    {
+        "id": 5,
+        "videoUrl": "https://media.istockphoto.com/id/1172642711/video/sea-wave-on-the-beach.mp4?s=mp4-640x640-is&k=20&c=WGMko95H0KBhKVIe519DF6_xeZtu1CdhiUHmK0D7Wy4=",
+        "listOfClosedCaptions": null,
+        "title": "Mp4 Video sample",
+        "videoDescription": "Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": null,
+        "isDrmEnabled": false,
+        "certificateUrl": null
+    },
+    {
+        "id": 6,
+        "videoUrl": "https://cdn.bitmovin.com/content/assets/art-of-motion_drm/mpds/11331.mpd",
+        "listOfClosedCaptions": null,
+        "title": "Mpd Video sample 1 ",
+        "videoDescription": "Discover the magic of this captivating video. Immerse yourself in a world of imagination and wonder as you journey through mesmerizing landscapes and thrilling adventures. With stunning visuals and captivating storytelling, this video promises to keep you entertained from start to finish.Experience the excitement of exploration, the thrill of discovery, and the joy of connecting with characters who will capture your heart. Whether you're seeking adrenaline-pumping action, heartwarming moments, or thought-provoking themes, this video has something for everyone. Join us on this unforgettable journey as we embark on an epic quest filled with twists and turns, challenges and triumphs. From the first frame to the last, prepare to be spellbound by the beauty and excitement that awaits. Don't miss out on the opportunity to be transported to another world. Watch this video today and let your imagination soar.",
+        "licenseToken": null,
+        "licenseUrl": "https://cwip-shaka-proxy.appspot.com/no_auth",
+        "isDrmEnabled": false,
+        "certificateUrl": null
+    }
+]
